@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!--dodati meta tag bitan za stranicu-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 		<link rel="stylesheet" href="./index.css">
 		<title>Filmovi</title> 
 	</head>
@@ -73,5 +74,26 @@
 		<footer>
 		<p>&copy; 2025. Web Programiranje. Sva prava pridrzana.</p>
 		</footer>
+
+		<script>
+			
+			fetch('movies.csv')
+				.then(res => res.text())
+				.then(csv => {
+				const rezultat = Papa.parse(csv, {
+					header: true,
+					skipEmptyLines: true
+				});
+				const filmovi = rezultat.data.map(film => ({
+					title: film.title,
+					year: Number(film.year),
+					genre: film.genre,
+					duration: Number(film.duration),
+					country: film.country?.split(',').map(c => c.trim()) ||
+					[],
+					total_votes: Number(film.total_votes)
+			
+			})
+		</script>
 	</body>
 	</html>
